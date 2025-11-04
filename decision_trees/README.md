@@ -1,63 +1,157 @@
-# Decision Trees (Classification)
+# Δέντρα Αποφάσεων (Κατηγοριοποίηση)
 
-This module demonstrates **decision tree classifiers** for supervised
-learning (classification) using Python & scikit-learn.
+Αυτό το module παρουσιάζει τη χρήση **δέντρων αποφάσεων** (decision tree classifiers)
+για εποπτευόμενη μάθηση (supervised learning) με τη βιβλιοθήκη scikit-learn.
 
-Topics linked to the course:
+### Στόχοι
 
-- Decision trees (C4.5/CART-style)
-- Purity measures:
-  - Information Gain (entropy)
-  - Gain Ratio (theoretical, illustrated via custom code)
-  - Gini Index
-- Biases of each measure
-- Overfitting vs Underfitting via tree depth
-- Handling categorical vs continuous features
+- Κατανόηση της λογικής των δέντρων αποφάσεων (C4.5 / CART).
+- Συγκριση διαφορετικών μέτρων καθαρότητας κόμβων:
+  - **Entropy (Information Gain)**
+  - **Gini Index**
+  - **Gain Ratio** (αναλυτικά στο αρχείο με τα μανιτάρια)
+- Επίδραση της παραμέτρου `max_depth` (Overfitting / Underfitting).
+- Χειρισμός κατηγορικών και αριθμητικών χαρακτηριστικών (One-Hot Encoding).
 
-## Files
+---
 
-- `train_decision_tree_titanic.py`  
-  Train a decision tree classifier on the Titanic dataset.
+## 📁 Αρχεία
 
-- `infer_decision_tree_titanic.py`  
-  Load a trained model and run inference on a single passenger.
+- **`train_decision_tree_titanic.py`**  
+  Εκπαίδευση δέντρου αποφάσεων με βάση το dataset του Titanic.
 
-- `impurity_measures_mushrooms.py`  
-  Compute Information Gain, Split Information, Gain Ratio and Gini gain
-  for each feature in the Mushroom dataset.
+- **`infer_decision_tree_titanic.py`**  
+  Φόρτωση αποθηκευμένου μοντέλου και πρόβλεψη για νέο επιβάτη.
 
-- `models/`  
-  Stores trained models (`.joblib`) and optional tree plots (`.png`).
+- **`impurity_measures_mushrooms.py`**  
+  Υπολογισμός Entropy, Gain Ratio και Gini gain για κάθε χαρακτηριστικό
+  του dataset με τα μανιτάρια (Mushroom dataset).
 
-## Datasets
+- **`models/`**  
+  Περιέχει τα εκπαιδευμένα μοντέλα (`.joblib`) και, αν το δέντρο είναι ρηχό,
+  τα διαγράμματά του (`.png`).
 
-Expected files in `data/` (see `data/README.md`):
+---
 
-- `titanic_train.csv`  (Titanic competition training data)
-- `mushrooms.csv`      (Mushroom Classification dataset)
+## 📊 Δεδομένα
 
-## Running the scripts
+Αναμενόμενα αρχεία στο φάκελο `data/` (δες `data/README.md`):
 
-From the root of the repository (after placing the datasets):
+- `titanic_train.csv`  — δεδομένα εκπαίδευσης (Titanic competition)
+- `mushrooms.csv`      — δεδομένα για το παράδειγμα purity measures
+
+---
+
+## ⚙️ Εγκατάσταση
 
 ```bash
-# Train decision tree on Titanic (Gini, max_depth=4)
-python -m decision_trees.train_decision_tree_titanic --criterion gini --max_depth 4
-
-# Train decision tree on Titanic (Entropy, max_depth=4)
-python -m decision_trees.train_decision_tree_titanic --criterion entropy --max_depth 4
-
-# Inference using the default saved model
-python -m decision_trees.infer_decision_tree_titanic
-
-# Compute impurity measures on Mushroom dataset
-python -m decision_trees.impurity_measures_mushrooms
+pip install -r requirements.txt
+# ή εναλλακτικά:
+pip install scikit-learn pandas matplotlib joblib
 ```
 
-## Notebooks
+---
+
+## 🚀 Εκτέλεση των scripts
+
+Από τον ριζικό φάκελο του αποθετηρίου (όπου υπάρχουν τα δεδομένα):
+
+```bash
+# 1️⃣ Βασική εκπαίδευση (Gini, max_depth=3)
+python -m decision_trees.train_decision_tree_titanic --criterion gini --max_depth 3 --test_size 0.2 --random_state 0
+
+# 2️⃣ Λίγο βαθύτερο δέντρο (Gini, max_depth=4)
+python -m decision_trees.train_decision_tree_titanic --criterion gini --max_depth 4 --test_size 0.2 --random_state 0
+
+# 3️⃣ Σύγκριση Gini vs Entropy στο ίδιο βάθος
+python -m decision_trees.train_decision_tree_titanic --criterion entropy --max_depth 4 --test_size 0.2 --random_state 0
+
+# 4️⃣ Πιο βαθύ δέντρο (Entropy, max_depth=8) — αρχίζει το overfitting
+python -m decision_trees.train_decision_tree_titanic --criterion entropy --max_depth 8 --test_size 0.2 --random_state 0
+
+# 5️⃣ Χωρίς όριο βάθους (Gini) — εμφανές overfitting
+python -m decision_trees.train_decision_tree_titanic --criterion gini --test_size 0.2 --random_state 0
+```
+
+💡 *Τα μοντέλα αποθηκεύονται στον φάκελο* `models/`,  
+π.χ. `decision_tree_titanic_entropy_depth4.joblib`,  
+και τα διαγράμματα (αν depth ≤ 4) σε `.png` αρχεία.
+
+---
+
+## 🔍 Inference (πρόβλεψη για νέο επιβάτη)
+
+```bash
+python -m decision_trees.infer_decision_tree_titanic
+```
+
+Επιστρέφει εάν ο επιβάτης θα επιβίωνε (1) ή όχι (0), καθώς και τις πιθανότητες.
+
+---
+
+## 📓 Notebooks
 
 - `notebooks/01_decision_trees_titanic.ipynb`  
-  Step-by-step training, evaluation and inference on Titanic.
+  Βήμα-βήμα εκπαίδευση, αξιολόγηση και πρόβλεψη στο Titanic.
 
 - `notebooks/01b_impurity_measures_mushrooms.ipynb`  
-  (Placeholder) Will illustrate purity measures on the Mushroom dataset.
+  Παράδειγμα υπολογισμού Entropy, Gain Ratio και Gini Index.
+
+---
+
+## 🎯 Τι δείχνουν οι διαφορετικές ρυθμίσεις
+
+| Παράμετροι | Ερμηνεία |
+|-------------|-----------|
+| `--criterion gini --max_depth 3` | Απλό δέντρο — underfitting |
+| `--criterion gini --max_depth 4` | Καλή ισορροπία (sweet spot) |
+| `--criterion entropy --max_depth 4` | Παρόμοια ακρίβεια, διαφορετικά splits |
+| `--criterion entropy --max_depth 8` | Overfitting (train↑, val↓) |
+| `--criterion gini --max_depth None` | Πλήρες overfitting |
+
+---
+
+## 📈 Ανάλυση των αποτελεσμάτων
+
+Κατά κανόνα, το δέντρο μαθαίνει ότι:
+
+- Οι **γυναίκες** (`Sex=female`) είχαν πολύ μεγαλύτερη πιθανότητα να επιβιώσουν.  
+- Οι **επιβάτες 1ης θέσης** (`Pclass=1`) είχαν επίσης υψηλότερη πιθανότητα.  
+- Οι **επιβάτες με υψηλό εισιτήριο (Fare)** εμφάνιζαν θετική συσχέτιση με επιβίωση.  
+- Οι **νεαρότερες ηλικίες (Age μικρότερη)** τείνουν να επιβιώνουν συχνότερα.  
+
+Αυτά επιβεβαιώνονται:
+- είτε από τη **ρίζα και τα πρώτα splits** του δέντρου (με μικρό depth=4),
+- είτε από τα **feature importances**:
+
+```python
+pipe = joblib.load("models/decision_tree_titanic_entropy_depth4.joblib")
+importances = pipe.named_steps["model"].feature_importances_
+ohe = pipe.named_steps["preprocess"].named_transformers_["cat"]
+cat_feature_names = list(ohe.get_feature_names_out(["Sex", "Embarked"]))
+feature_names = cat_feature_names + ["Pclass", "Age", "SibSp", "Parch", "Fare"]
+sorted(list(zip(feature_names, importances)), key=lambda x: x[1], reverse=True)
+```
+
+Θα δεις συνήθως κάτι σαν:
+
+| Χαρακτηριστικό | Σημασία |
+|-----------------|---------|
+| `Sex_female` | 0.40–0.50 |
+| `Pclass` | 0.20 |
+| `Fare` | 0.15 |
+| `Age` | 0.10 |
+| Άλλα | < 0.05 |
+
+📌 Δηλαδή: **το φύλο, η θέση (Pclass)** και το **εισιτήριο** παίζουν τον σημαντικότερο ρόλο στην πρόβλεψη επιβίωσης.
+
+---
+
+## 💬 Συμπέρασμα
+
+Με λίγες γραμμές κώδικα μπορείς να:
+
+- εκπαιδεύσεις ένα δέντρο αποφάσεων στο Titanic dataset,
+- αξιολογήσεις overfitting / underfitting,
+- οπτικοποιήσεις τη λογική του μοντέλου,
+- και να εντοπίσεις τα πιο καθοριστικά χαρακτηριστικά (π.χ. φύλο, εισιτήριο, ηλικία).

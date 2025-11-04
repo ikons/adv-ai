@@ -1,49 +1,84 @@
-# `data/` directory
+# Φάκελος `data/`
 
-The `data/` folder contains the CSV and other data files that students
-download locally (e.g., from Kaggle). Large data files are **not**
-committed to the repository.
-
-This folder is ignored by git, except for this `README.md` and `.gitignore`.
-
-## Git ignore rules
-
-At the repository root in `.gitignore` we have:
-
-```gitignore
-data/*
-!data/README.md
-!data/.gitignore
-```
-
-And here in `data/.gitignore`:
-
-```gitignore
-*
-!README.md
-!.gitignore
-```
-
-This means students can place any number of files here, but they will not
-be committed to GitHub.
+Ο φάκελος `data/` περιέχει **μόνο** τα αρχεία δεδομένων (CSV κ.λπ.) που
+κατεβάζουν τοπικά οι φοιτητές (π.χ. από Kaggle ή UCI). Τα μεγάλα αρχεία
+**δεν** ανεβαίνουν στο GitHub.
 
 ---
 
-## 1. Titanic dataset
+## 0. Ρύθμιση Kaggle API (`kaggle.json`)
 
-Used in:
+Για να χρησιμοποιήσετε τις εντολές `kaggle competitions download` και
+`kaggle datasets download`, χρειάζεται ένα API token `kaggle.json`.
+
+### 0.1 Δημιουργία `kaggle.json`
+
+1. Δημιουργήστε λογαριασμό στο [https://www.kaggle.com](https://www.kaggle.com) (αν δεν έχετε ήδη).
+2. Κάντε login και πηγαίνετε στο προφίλ σας (**Profile**).
+3. Επιλέξτε **Account** ή **My Account**.
+4. Βρείτε την ενότητα **API**.
+5. Πατήστε **Create New API Token**.
+6. Θα κατέβει ένα αρχείο `kaggle.json` (συνήθως στον φάκελο `Downloads`).
+
+### 0.2 Τοποθέτηση `kaggle.json` σε WSL / Linux / macOS
+
+Αν δουλεύετε σε WSL, Ubuntu ή άλλο Linux/macOS:
+
+```bash
+mkdir -p ~/.kaggle
+mv ~/Downloads/kaggle.json ~/.kaggle/
+chmod 600 ~/.kaggle/kaggle.json
+```
+
+> Αν το αρχείο δεν βρίσκεται στο `~/Downloads`, προσαρμόστε το path ανάλογα.
+
+### 0.3 Τοποθέτηση `kaggle.json` σε Windows (PowerShell / CMD)
+
+1. Δημιουργήστε (αν δεν υπάρχει) τον φάκελο:
+
+```text
+C:\Users\<το-username-σας>\.kaggle\
+```
+
+2. Αντιγράψτε εκεί το `kaggle.json`:
+
+```text
+C:\Users\<το-username-σας>\.kaggle\kaggle.json
+```
+
+3. Βεβαιωθείτε ότι ο φάκελος και το αρχείο ανήκουν στον δικό σας χρήστη.
+
+### 0.4 Έλεγχος εγκατάστασης
+
+Μέσα στο virtual environment του repository:
+
+```bash
+pip install kaggle
+kaggle competitions list
+```
+
+Αν όλα είναι σωστά ρυθμισμένα, η τελευταία εντολή θα εμφανίσει λίστα
+με Kaggle competitions χωρίς error.
+
+---
+
+## 1. Σύνολα δεδομένων που πρέπει να κατέβουν στον φάκελο `data/`
+
+Τα παρακάτω datasets **δεν** φορτώνονται αυτόματα από scikit-learn/OpenML
+και πρέπει να υπάρχουν ως αρχεία μέσα στο `data/`.
+
+### 1.1 Titanic dataset (Kaggle)
+
+Χρησιμοποιείται στα:
 
 - `decision_trees/train_decision_tree_titanic.py`
 - `notebooks/01_decision_trees_titanic.ipynb`
 
-Expected file name:
+Αναμενόμενο όνομα αρχείου:
 
 - `data/titanic_train.csv`
 
-### 1.1 With Kaggle CLI (WSL / Linux / macOS)
-
-1. Create a Kaggle account and set up the `kaggle.json` API token under `~/.kaggle/`.
-2. From the root of this repository:
+#### Λήψη με Kaggle CLI (WSL / Linux / macOS)
 
 ```bash
 pip install kaggle
@@ -56,7 +91,7 @@ unzip data/titanic.zip -d data
 mv data/train.csv data/titanic_train.csv
 ```
 
-### 1.2 With Kaggle CLI (Windows / PowerShell)
+#### Λήψη με Kaggle CLI (Windows / PowerShell)
 
 ```powershell
 pip install kaggle
@@ -69,11 +104,11 @@ Expand-Archive -Path data\titanic.zip -DestinationPath data
 Rename-Item -Path data\train.csv -NewName titanic_train.csv
 ```
 
-### 1.3 Manual download
+#### Χειροκίνητη λήψη
 
-1. Open the Titanic competition page on Kaggle.
-2. Download `train.csv` from the **Data** tab.
-3. Save it as:
+1. Μεταβείτε στη σελίδα του **Titanic** competition στο Kaggle.
+2. Από το tab **Data**, κατεβάστε το `train.csv`.
+3. Αποθηκεύστε το ως:
 
 ```text
 data/titanic_train.csv
@@ -81,18 +116,18 @@ data/titanic_train.csv
 
 ---
 
-## 2. Mushroom Classification dataset
+### 1.2 Mushroom Classification dataset (Kaggle ή UCI)
 
-Used in:
+Χρησιμοποιείται στα:
 
 - `decision_trees/impurity_measures_mushrooms.py`
-- (optional) `notebooks/01b_impurity_measures_mushrooms.ipynb`
+- `notebooks/01b_impurity_measures_mushrooms.ipynb` (όταν υλοποιηθεί)
 
-Expected file name:
+Αναμενόμενο όνομα αρχείου:
 
 - `data/mushrooms.csv`
 
-### 2.1 With Kaggle CLI (WSL / Linux / macOS)
+#### Λήψη με Kaggle CLI (WSL / Linux / macOS)
 
 ```bash
 pip install kaggle
@@ -102,11 +137,13 @@ mkdir -p data
 kaggle datasets download -d uciml/mushroom-classification -p data
 unzip data/mushroom-classification.zip -d data
 
-# If the file name differs (e.g., mushroom.csv), rename it:
-mv data/mushrooms.csv data/mushrooms.csv  # adjust if needed
+# Αν το αρχείο έχει άλλο όνομα (π.χ. mushroom.csv), μετονομάστε το:
+# mv data/mushroom.csv data/mushrooms.csv
 ```
 
-### 2.2 With Kaggle CLI (Windows / PowerShell)
+(Βεβαιωθείτε ότι τελικά το αρχείο ονομάζεται `mushrooms.csv`.)
+
+#### Λήψη με Kaggle CLI (Windows / PowerShell)
 
 ```powershell
 pip install kaggle
@@ -116,15 +153,14 @@ mkdir data
 kaggle datasets download -d uciml/mushroom-classification -p data
 Expand-Archive -Path data\mushroom-classification.zip -DestinationPath data
 
-# If the file is called mushroom.csv, rename it:
+# Αν το αρχείο έχει όνομα mushroom.csv:
 # Rename-Item -Path data\mushroom.csv -NewName mushrooms.csv
 ```
 
-### 2.3 Manual download
+#### Χειροκίνητη λήψη (π.χ. από UCI)
 
-1. Open the **Mushroom Classification** dataset on Kaggle.
-2. Download the main CSV file.
-3. Save it as:
+1. Κατεβάστε το Mushroom dataset ως CSV (από Kaggle ή UCI mirror).
+2. Αποθηκεύστε το ως:
 
 ```text
 data/mushrooms.csv
@@ -132,17 +168,32 @@ data/mushrooms.csv
 
 ---
 
-## 3. Future datasets (placeholders)
+### 1.3 Μελλοντικά datasets (placeholders)
 
-For the following modules, additional datasets will be added later:
+Στο μέλλον, ενδέχεται να προστεθούν επιπλέον datasets που θα αποθηκεύονται επίσης
+στον φάκελο `data/`, π.χ.:
 
-- `regression/` (e.g. House Prices)
-- `bayesian_learning/` (e.g. spam classification or reuse Titanic)
-- `bayesian_networks/` (small medical / toy examples)
-- `association_rules/` (market basket / retail)
-- `knn/`
-- `svm/`
-- `clustering/`
+- Για `association_rules/` – market basket / retail data (π.χ. Online Retail).
+- Για πιο “πλούσια” παραδείγματα regression (π.χ. House Prices).
 
-When these modules are implemented, this `README.md` will be updated
-with specific Kaggle links and file names.
+Όταν υλοποιηθούν τα αντίστοιχα modules, εδώ θα προστεθούν συγκεκριμένες οδηγίες.
+
+---
+
+## 2. Σύνολα δεδομένων που φορτώνονται αυτόματα (χωρίς αρχεία στο `data/`)
+
+Μερικά notebooks θα χρησιμοποιούν datasets τα οποία φορτώνονται απευθείας από
+`scikit-learn` ή `OpenML`. Για αυτά **δεν χρειάζεται** χειροκίνητη λήψη ή αρχεία
+στον φάκελο `data/` – η βιβλιοθήκη τα κατεβάζει και τα κάνει cache αυτόματα.
+
+Ενδεικτικά παραδείγματα (προγραμματισμένα):
+
+- `sklearn.datasets.load_iris()` – για k-NN, SVM, clustering.
+- `sklearn.datasets.load_wine()` / `load_breast_cancer()` – για ταξινόμηση.
+- `sklearn.datasets.make_blobs()` / `make_moons()` – για clustering & decision boundaries.
+- `sklearn.datasets.fetch_california_housing()` – για regression παραδείγματα.
+- `sklearn.datasets.fetch_openml("adult", version=2, as_frame=True)` – Adult income,
+  για SVM / logistic regression / δέντρα αποφάσεων.
+
+Όταν ένα notebook χρησιμοποιεί τέτοιο dataset, θα το αναφέρει ξεκάθαρα στην αρχή
+(π.χ. “εδώ δεν χρειάζεται download, τα δεδομένα έρχονται από `sklearn.datasets`”).

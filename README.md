@@ -31,7 +31,7 @@ Large data files are **not** committed to git. Only `data/README.md` and
 git clone https://github.com/ikons/adv-ai.git
 cd adv-ai
 
-python -m venv .venv
+python3 -m venv .venv
 # Linux/macOS
 source .venv/bin/activate
 # Windows
