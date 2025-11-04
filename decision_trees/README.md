@@ -6,7 +6,7 @@
 ### Στόχοι
 
 - Κατανόηση της λογικής των δέντρων αποφάσεων (C4.5 / CART).
-- Συγκριση διαφορετικών μέτρων καθαρότητας κόμβων:
+- Σύγκριση διαφορετικών μέτρων καθαρότητας κόμβων:
   - **Entropy (Information Gain)**
   - **Gini Index**
   - **Gain Ratio** (αναλυτικά στο αρχείο με τα μανιτάρια)
@@ -24,8 +24,8 @@
   Φόρτωση αποθηκευμένου μοντέλου και πρόβλεψη για νέο επιβάτη.
 
 - **`impurity_measures_mushrooms.py`**  
-  Υπολογισμός Entropy, Gain Ratio και Gini gain για κάθε χαρακτηριστικό
-  του dataset με τα μανιτάρια (Mushroom dataset).
+  Υπολογισμός Entropy, Split Information, Gain Ratio και Gini Gain
+  για κάθε χαρακτηριστικό του dataset με τα μανιτάρια (Mushroom dataset).
 
 - **`models/`**  
   Περιέχει τα εκπαιδευμένα μοντέλα (`.joblib`) και, αν το δέντρο είναι ρηχό,
@@ -37,7 +37,7 @@
 
 Αναμενόμενα αρχεία στο φάκελο `data/` (δες `data/README.md`):
 
-- `titanic_train.csv`  — δεδομένα εκπαίδευσης (Titanic competition)
+- `titanic_train.csv`  — δεδομένα εκπαίδευσης (Titanic competition)  
 - `mushrooms.csv`      — δεδομένα για το παράδειγμα purity measures
 
 ---
@@ -71,6 +71,9 @@ python -m decision_trees.train_decision_tree_titanic --criterion entropy --max_d
 
 # 5️⃣ Χωρίς όριο βάθους (Gini) — εμφανές overfitting
 python -m decision_trees.train_decision_tree_titanic --criterion gini --test_size 0.2 --random_state 0
+
+# 6️⃣ Υπολογισμός μετρικών καθαρότητας στο Mushroom dataset
+python -m decision_trees.impurity_measures_mushrooms
 ```
 
 💡 *Τα μοντέλα αποθηκεύονται στον φάκελο* `models/`,  
@@ -89,13 +92,54 @@ python -m decision_trees.infer_decision_tree_titanic
 
 ---
 
+## 🍄 Impurity measures στο Mushroom dataset
+
+Το script:
+
+```bash
+python -m decision_trees.impurity_measures_mushrooms
+```
+
+διαβάζει το `mushrooms.csv` και για κάθε χαρακτηριστικό (π.χ. `odor`, `cap-color`, `gill-size`):
+
+- υπολογίζει:
+  - **Information Gain** (με βάση την Entropy),
+  - **Split Information**,
+  - **Gain Ratio** (IG / SplitInfo),
+  - **Gini Gain** (μείωση Gini impurity),
+- και εκτυπώνει τους **top-10 “καλύτερους” predictors** σύμφωνα με κάθε μέτρο:
+
+- `Top features by Information Gain`
+- `Top features by Gain Ratio`
+- `Top features by Gini Gain`
+
+### Τι περιμένουμε να δούμε
+
+- Χαρακτηριστικά όπως η **οσμή (`odor`)** τείνουν να έχουν **πολύ υψηλό Information Gain και Gini Gain**,  
+  γιατί σχεδόν «κόβουν» τέλεια φαγώσιμα από δηλητηριώδη μανιτάρια.
+- Το **Gain Ratio** μπορεί να αλλάξει ελαφρά τη σειρά κατάταξης, γιατί:
+  - λαμβάνει υπόψη το πόσο «διασκορπισμένο» είναι το feature (πόσες και πόσο ισορροπημένες κατηγορίες έχει),
+  - άρα μειώνει το bias υπέρ χαρακτηριστικών με πολλές διαφορετικές τιμές.
+- Συνήθως:
+  - οι κορυφαίες στήλες (π.χ. `odor`, `spore-print-color`, `gill-size`)  
+    εμφανίζονται ψηλά σε **όλες** τις μετρικές,
+  - αλλά η **ακριβής σειρά** και οι “μεσαίες” θέσεις αλλάζουν ανάλογα με το αν κοιτάμε **IG**, **Gain Ratio** ή **Gini Gain**.
+
+Στόχος του script είναι να δούμε **στην πράξη** ότι:
+
+- διαφορετικές μετρικές impurity δίνουν **ελαφρώς διαφορετική εικόνα** για το ποια features είναι πιο σημαντικά,  
+- και ότι μέτρα όπως το **Gain Ratio** προσπαθούν να διορθώσουν αδυναμίες του απλού Information Gain.
+
+---
+
 ## 📓 Notebooks
 
 - `notebooks/01_decision_trees_titanic.ipynb`  
   Βήμα-βήμα εκπαίδευση, αξιολόγηση και πρόβλεψη στο Titanic.
 
 - `notebooks/01b_impurity_measures_mushrooms.ipynb`  
-  Παράδειγμα υπολογισμού Entropy, Gain Ratio και Gini Index.
+  Παράδειγμα υπολογισμού Entropy, Gain Ratio και Gini Index στο Mushroom dataset,
+  καθώς και σύγκριση δέντρων με `criterion="entropy"` vs `criterion="gini"`.
 
 ---
 
@@ -111,7 +155,7 @@ python -m decision_trees.infer_decision_tree_titanic
 
 ---
 
-## 📈 Ανάλυση των αποτελεσμάτων
+## 📈 Ανάλυση των αποτελεσμάτων (Titanic)
 
 Κατά κανόνα, το δέντρο μαθαίνει ότι:
 
@@ -133,25 +177,19 @@ feature_names = cat_feature_names + ["Pclass", "Age", "SibSp", "Parch", "Fare"]
 sorted(list(zip(feature_names, importances)), key=lambda x: x[1], reverse=True)
 ```
 
-Θα δεις συνήθως κάτι σαν:
+Τυπικά θα δεις ότι:
 
-| Χαρακτηριστικό | Σημασία |
-|-----------------|---------|
-| `Sex_female` | 0.40–0.50 |
-| `Pclass` | 0.20 |
-| `Fare` | 0.15 |
-| `Age` | 0.10 |
-| Άλλα | < 0.05 |
-
-📌 Δηλαδή: **το φύλο, η θέση (Pclass)** και το **εισιτήριο** παίζουν τον σημαντικότερο ρόλο στην πρόβλεψη επιβίωσης.
+- `Sex_*` είναι το πιο σημαντικό χαρακτηριστικό,
+- ακολουθούν `Pclass`, `Fare`, `Age`.
 
 ---
 
 ## 💬 Συμπέρασμα
 
-Με λίγες γραμμές κώδικα μπορείς να:
+Με αυτό το module μπορούμε να:
 
-- εκπαιδεύσεις ένα δέντρο αποφάσεων στο Titanic dataset,
-- αξιολογήσεις overfitting / underfitting,
-- οπτικοποιήσεις τη λογική του μοντέλου,
-- και να εντοπίσεις τα πιο καθοριστικά χαρακτηριστικά (π.χ. φύλο, εισιτήριο, ηλικία).
+- εκπαιδεύσουμε και να ερμηνεύσουμε δέντρα αποφάσεων στο Titanic dataset,
+- μελετήσουμε **overfitting / underfitting** μεταβάλλοντας το βάθος,
+- κατανοήσουμε **Information Gain, Gain Ratio και Gini** στο Mushroom dataset,
+- και να δούμε πώς οι διαφορετικές μετρικές impurity επηρεάζουν την επιλογή χαρακτηριστικών
+  και, τελικά, τη συμπεριφορά ενός decision tree.
