@@ -8,3 +8,6 @@ __pycache__/
 data/*
 !data/README.md
 !data/.gitignore
+
+# Exclude models directory in decision_trees
+decision_trees/models/
