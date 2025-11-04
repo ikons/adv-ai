@@ -1,0 +1,4 @@
+# Ignore all data files here by default
+*
+!README.md
+!.gitignore

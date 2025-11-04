@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Data files (only README and .gitignore are tracked)
+data/*
+!data/README.md
+!data/.gitignore
