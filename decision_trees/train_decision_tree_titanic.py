@@ -1,6 +1,10 @@
 from pathlib import Path
 
 import joblib
+import matplotlib
+# Use a non-interactive backend so matplotlib doesn't require Tcl/Tk (works in headless or environments
+# where Tkinter/Tcl isn't installed). This must be set before importing pyplot.
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 from sklearn.compose import ColumnTransformer
