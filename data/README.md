@@ -253,16 +253,14 @@ data/mushrooms.csv
 Βήματα λήψης (αφού ρυθμίσετε το `kaggle.json` όπως στην ενότητα 0):
 
 ```bash
-cd data
-
 # 1. Κατεβάζουμε τα αρχεία του διαγωνισμού (zip)
-kaggle competitions download -c house-prices-advanced-regression-techniques -p .
+kaggle competitions download -c house-prices-advanced-regression-techniques -p data
 
 # 2. Αποσυμπίεση του zip
-unzip house-prices-advanced-regression-techniques.zip
+unzip data/house-prices-advanced-regression-techniques.zip -d data
 
 # 3. Μετονομασία του train.csv σε πιο κατανοητό όνομα
-mv train.csv house_prices_train.csv
+mv data/train.csv data/house_prices_train.csv
 
 
 ### 1.3 Μελλοντικά datasets (placeholders)
