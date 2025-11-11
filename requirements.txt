@@ -5,3 +5,6 @@ numpy
 scikit-learn
 matplotlib
 joblib
+ipykernel
+kaggle
+nbstripout

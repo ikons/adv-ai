@@ -1,0 +1,5 @@
+# Jupyter Notebooks
+# Strip outputs and metadata before committing to keep diffs clean
+*.ipynb filter=nbstripout
+*.ipynb diff=ipynb
+*.ipynb merge=union
