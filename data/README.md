@@ -53,12 +53,11 @@ C:\Users\<το-username-σας>\.kaggle\kaggle.json
 Μέσα στο virtual environment του repository:
 
 ```bash
-pip install kaggle
 kaggle competitions list
 ```
 
 Αν όλα είναι σωστά ρυθμισμένα, η τελευταία εντολή θα εμφανίσει λίστα
-με Kaggle competitions χωρίς error.
+με Kaggle competitions χωρίς error (το πακέτο kaggle έχει δηλωθεί στο requirements.txt επομένως έχει ήδη εγκατασταθεί).
 
 ---
 
@@ -112,10 +111,6 @@ kaggle competitions list
 #### Λήψη με Kaggle CLI (WSL / Linux / macOS)
 
 ```bash
-pip install kaggle
-cd path/to/advanced-ml-tutorials
-mkdir -p data
-
 kaggle competitions download -c titanic -p data
 unzip data/titanic.zip -d data
 
@@ -125,10 +120,6 @@ mv data/train.csv data/titanic_train.csv
 #### Λήψη με Kaggle CLI (Windows / PowerShell)
 
 ```powershell
-pip install kaggle
-cd path\to\advanced-ml-tutorials
-mkdir data
-
 kaggle competitions download -c titanic -p data
 
 Expand-Archive -Path data\titanic.zip -DestinationPath data
@@ -189,10 +180,6 @@ data/titanic_train.csv
 #### Λήψη με Kaggle CLI (WSL / Linux / macOS)
 
 ```bash
-pip install kaggle
-cd path/to/advanced-ml-tutorials
-mkdir -p data
-
 kaggle datasets download -d uciml/mushroom-classification -p data
 unzip data/mushroom-classification.zip -d data
 
@@ -205,10 +192,6 @@ unzip data/mushroom-classification.zip -d data
 #### Λήψη με Kaggle CLI (Windows / PowerShell)
 
 ```powershell
-pip install kaggle
-cd path\to\advanced-ml-tutorials
-mkdir data
-
 kaggle datasets download -d uciml/mushroom-classification -p data
 Expand-Archive -Path data\mushroom-classification.zip -DestinationPath data
 
@@ -226,6 +209,61 @@ data/mushrooms.csv
 ```
 
 ---
+
+
+### 1.3 House Prices (Kaggle)
+
+Χρησιμοποιείται από:
+
+- `regression/train_regression_house_prices.py`
+- `notebooks/02_regression_house_prices.ipynb`
+- `notebooks/02b_regularization_ridge_lasso.ipynb`
+
+Αναμενόμενο αρχείο:
+
+- `data/house_prices_train.csv`
+
+#### Σύντομη περιγραφή του `house_prices_train.csv`
+
+Το αρχείο περιλαμβάνει εγγραφές κατοικιών με την τιμή πώλησης (`SalePrice`) και πλήθος χαρακτηριστικών που περιγράφουν τα σπίτια.
+Στα notebooks που συνοδεύουν αυτό το repo χρησιμοποιούμε ένα μικρό, εκπαιδευτικό υποσύνολο χαρακτηριστικών ώστε να δείξουμε βασικές τεχνικές regression και regularization:
+
+- `LotArea` – μέγεθος οικοπέδου (τετραγωνικά πόδια)
+- `OverallQual` – συνολική ποιότητα (βαθμός 1-10)
+- `OverallCond` – συνολική κατάσταση (βαθμός 1-10)
+- `YearBuilt` – έτος κατασκευής
+- `GrLivArea` – κατοικήσιμη επιφάνεια (τετραγωνικά πόδια)
+- `BedroomAbvGr` – αριθμός υπνοδωματίων πάνω από το έδαφος
+- `GarageCars` – χωρητικότητα γκαράζ (αριθμός αυτοκινήτων)
+- `SalePrice` – τιμή πώλησης (στόχος)
+
+Τι εξετάζουμε:
+
+- Πόσο καλά προβλέπεται η `SalePrice` από αυτό το σετ χαρακτηριστικών (MAE, RMSE, R²).
+- Ποια χαρακτηριστικά έχουν μεγαλύτερο βάρος σε ένα γραμμικό μοντέλο.
+- Πώς επηρεάζει η regularization (Ridge / Lasso) τους συντελεστές (shrinkage / sparsity) και την απόδοση στο test set.
+
+Σημείωση: Το πλήρες dataset περιέχει πολλά επιπλέον χαρακτηριστικά· εδώ επιλέγουμε λίγα προς διδακτικούς σκοπούς. Για παραγωγική χρήση προτείνεται πιο εκτεταμένο feature engineering και cross-validation.
+
+> **ΠΡΟΫΠΟΘΕΣΗ (για competitions):** Πριν δουλέψει το `kaggle` CLI, πρέπει να
+> κάνεις **Join Competition / Accept Rules** στη σελίδα του διαγωνισμού (tab **Data**):
+> https://www.kaggle.com/c/house-prices-advanced-regression-techniques  
+> Αλλιώς θα πάρεις **403 Forbidden**.
+
+Βήματα λήψης (αφού ρυθμίσετε το `kaggle.json` όπως στην ενότητα 0):
+
+```bash
+cd data
+
+# 1. Κατεβάζουμε τα αρχεία του διαγωνισμού (zip)
+kaggle competitions download -c house-prices-advanced-regression-techniques -p .
+
+# 2. Αποσυμπίεση του zip
+unzip house-prices-advanced-regression-techniques.zip
+
+# 3. Μετονομασία του train.csv σε πιο κατανοητό όνομα
+mv train.csv house_prices_train.csv
+
 
 ### 1.3 Μελλοντικά datasets (placeholders)
 
