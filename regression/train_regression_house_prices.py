@@ -14,7 +14,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
 
-# Ρίζα repository (ένας φάκελος πάνω από τον τρέχοντα: regression/)
+# Ρίζα repository (ένας φάκελος πάνω από τον τρέχοντα: regression/ )
 ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / 'data' / 'house_prices_train.csv'
 MODELS_DIR = Path(__file__).resolve().parent / 'models'
