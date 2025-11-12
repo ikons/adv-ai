@@ -263,6 +263,75 @@ unzip data/house-prices-advanced-regression-techniques.zip -d data
 mv data/train.csv data/house_prices_train.csv
 
 
+### 1.4 Gas Sensor Array under Flow Modulation (UCI)
+
+Χρησιμοποιείται από:
+
+- `regression/gas_ridge_lasso_demo.py`
+- `notebooks/03_regularization_gas_sensors.ipynb`
+
+Αναμενόμενο αρχείο:
+
+- `data/gas_features.csv`
+
+#### Τι περιέχουν τα δεδομένα;
+
+Πρόκειται για μετρήσεις από **16 αισθητήρες αερίων** υπό διαφορετικές ροές, για
+μείγματα ακετόνης και αιθανόλης. Το αρχείο `features.csv` (από το UCI περιέχει):
+
+- μεταδεδομένα πειράματος (`exp`, `batch`, `lab`, `gas`),
+- συγκεντρώσεις στόχων:
+  - `ace_conc` – συγκέντρωση ακετόνης (στόχος που χρησιμοποιούμε στο μάθημα)
+  - `eth_conc` – συγκέντρωση αιθανόλης
+- χαρακτηριστικά (features) από την απόκριση των αισθητήρων:
+  - μέγιστες/ελάχιστες τιμές ανά αισθητήρα (`S1_max`, `S2_max`, …),
+  - χαρακτηριστικά χαμηλής/υψηλής συχνότητας (π.χ. `S1_low`, `S1_high`, κ.λπ.).
+
+Στο μάθημα χρησιμοποιούμε **όλα τα αριθμητικά χαρακτηριστικά** (p ≫ n)
+για να δείξουμε πώς η Ridge και η Lasso βοηθούν όταν έχουμε
+πολλά χαρακτηριστικά και λίγα δείγματα.
+
+#### Λήψη από τη σελίδα UCI
+
+1. Μεταβείτε στη σελίδα του dataset στο UCI:
+   - "Gas sensor array under flow modulation".
+2. Κατεβάστε το zip αρχείο `gas+sensor+array+under+flow+modulation.zip`.
+3. Αποσυμπιέστε το και αντιγράψτε το `features.csv` στον φάκελο `data/` του repo.
+4. (Προαιρετικά) μετονομάστε το σε πιο «μιλητό» όνομα:
+
+```text
+data/gas_features.csv
+```
+
+#### Λήψη με PowerShell (Windows)
+
+Εναλλακτικά, μπορείτε να κατεβάσετε το zip απευθείας με PowerShell:
+
+```powershell
+# 1. Λήψη του zip από το UCI
+Invoke-WebRequest `
+  -Uri "https://archive.ics.uci.edu/static/public/308/gas+sensor+array+under+flow+modulation.zip" `
+  -OutFile "data\gas_sensor_array_under_flow_modulation.zip"
+
+# 2. Αποσυμπίεση του zip μέσα στο data/
+Expand-Archive -Path "data\gas_sensor_array_under_flow_modulation.zip" -DestinationPath "data"
+
+# 3. (Προαιρετικό) Μετονομασία του features.csv σε gas_features.csv
+Rename-Item -Path "data\features.csv" -NewName "gas_features.csv"
+```
+
+Βεβαιωθείτε ότι τελικά υπάρχει ένα αρχείο:
+
+```text
+data/gas_features.csv
+```
+
+---
+
+
+
+
+
 ### 1.3 Μελλοντικά datasets (placeholders)
 
 Στο μέλλον, ενδέχεται να προστεθούν επιπλέον datasets που θα αποθηκεύονται επίσης

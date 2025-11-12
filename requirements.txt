@@ -8,3 +8,4 @@ joblib
 ipykernel
 kaggle
 nbstripout
+ucimlrepo
