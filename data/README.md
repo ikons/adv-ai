@@ -262,6 +262,7 @@ unzip data/house-prices-advanced-regression-techniques.zip -d data
 # 3. Μετονομασία του train.csv σε πιο κατανοητό όνομα
 mv data/train.csv data/house_prices_train.csv
 
+```
 
 ### 1.4 Gas Sensor Array under Flow Modulation (UCI)
 
@@ -294,10 +295,10 @@ mv data/train.csv data/house_prices_train.csv
 #### Λήψη από τη σελίδα UCI
 
 1. Μεταβείτε στη σελίδα του dataset στο UCI:
-   - "Gas sensor array under flow modulation".
-2. Κατεβάστε το zip αρχείο `gas+sensor+array+under+flow+modulation.zip`.
+  - [Gas sensor array under flow modulation](https://archive.ics.uci.edu/dataset/308/gas+sensor+array+under+flow+modulation).
+2. Κατεβάστε το zip αρχείο [gas+sensor+array+under+flow+modulation.zip](https://archive.ics.uci.edu/static/public/308/gas+sensor+array+under+flow+modulation.zip).
 3. Αποσυμπιέστε το και αντιγράψτε το `features.csv` στον φάκελο `data/` του repo.
-4. (Προαιρετικά) μετονομάστε το σε πιο «μιλητό» όνομα:
+4. (Προαιρετικά) μετονομάστε το σε πιο «κατανοητό» όνομα:
 
 ```text
 data/gas_features.csv
