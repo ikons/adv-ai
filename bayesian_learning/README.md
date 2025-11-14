@@ -120,7 +120,7 @@ python -m bayesian_learning.infer_gaussian_nb_iris
 - **Bag-of-Words (BoW)**
 - **TF-IDF (Term Frequency – Inverse Document Frequency)**
 
-Παρακάτω αναλύονται όλα βήμα–βήμα, σαν να τα μαθαίνει κάποιος για πρώτη φορά.
+Παρακάτω αναλύονται όλες οι έννοιες αναλυτικά.
 
 ---
 
