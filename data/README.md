@@ -332,6 +332,93 @@ data/gas_features.csv
 
 
 
+### 1.5 SMS Spam dataset (για Naive Bayes)
+
+Χρησιμοποιείται από:
+
+- `bayesian_learning/train_naive_bayes_sms.py`
+- `bayesian_learning/infer_naive_bayes_sms.py`
+- `notebooks/03_bayesian_learning_naive_bayes.ipynb`
+
+Αναμενόμενο αρχείο:
+
+- `data/sms_spam.csv`
+
+#### Σύντομη περιγραφή του `sms_spam.csv`
+
+Το αρχείο περιλαμβάνει σύντομα SMS μηνύματα ταξινομημένα σε δύο κατηγορίες:
+
+- `ham`  – κανονικά, μη ανεπιθύμητα μηνύματα
+- `spam` – ανεπιθύμητα / διαφημιστικά μηνύματα
+
+(Η ορολογία spam προέκυψε από το παρακάτω σκετσάκι των Monty Pythons: [https://www.youtube.com/watch?v=anwy2MPT5RE] )
+
+Ελάχιστες στήλες που χρειάζονται στα παραδείγματά μας:
+
+- `label` – ετικέτα κλάσης (`ham` ή `spam`)
+- `text`  – το κείμενο του SMS (string)
+
+Παράδειγμα γραμμής:
+
+```text
+label,text
+ham,"Hey, are we still on for coffee tomorrow?"
+spam,"WINNER!! You have won a 1000$ cash prize. Call now!"
+```
+
+
+Στα notebooks και στα Python scripts χρησιμοποιούμε αυτό το dataset για να:
+
+- εκπαιδεύσουμε έναν **Multinomial Naive Bayes** ταξινομητή,
+- δούμε πώς ο τύπος του Bayes
+  $ P(y \mid x) \propto P(y)\prod_i P(x_i \mid y) $
+  εφαρμόζεται σε πρόβλημα ταξινόμησης κειμένου,
+- μελετήσουμε τις επιδόσεις του μοντέλου (accuracy, precision, recall, F1),
+- δούμε τις πιο «χαρακτηριστικές» λέξεις για κάθε κλάση (ham / spam),
+- πειραματιστούμε με την παράμετρο εξομάλυνσης $\\alpha$.
+
+> **Σημείωση:** Το dataset είναι κλασικό δημόσιο σύνολο δεδομένων
+> γνωστό ως *SMS Spam Collection*· υπάρχει και στο UCI ML Repository
+> και σε διάφορες εκδόσεις στο Kaggle. Εδώ χρησιμοποιούμε μία από
+> τις εκδόσεις Kaggle και τη μετατρέπουμε σε απλό CSV με στήλες
+> `label,text`.
+
+Βήματα λήψης (αφού ρυθμίσετε το `kaggle.json` όπως στην ενότητα 0):
+
+```bash
+# 1. Κατεβάζουμε το dataset από το Kaggle
+kaggle datasets download -d uciml/sms-spam-collection-dataset -p data
+
+# 2. Αποσυμπίεση του zip (θα δημιουργηθεί π.χ. το data/spam.csv)
+unzip data/sms-spam-collection-dataset.zip -d data
+
+# 3. Μετονομασία του spam.csv σε πιο κατανοητό όνομα
+mv data/spam.csv data/sms_spam.csv
+
+```
+
+
+
+
+## 1.6 Bayesian Networks (Student network)
+
+Για το παράδειγμα με Bayesian Networks:
+
+- `bayesian_networks/`
+- Notebook: `04_bayesian_networks_intro.ipynb`
+
+**Δεν απαιτείται εξωτερικό αρχείο δεδομένων.**
+
+Όλες οι κατανομές πιθανοτήτων ορίζονται "στο χέρι" μέσα
+στον κώδικα, μέσω των πινάκων CPD (`TabularCPD`).
+
+
+
+
+
+
+
+
 
 ### 1.3 Μελλοντικά datasets (placeholders)
 
