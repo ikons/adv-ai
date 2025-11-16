@@ -80,7 +80,7 @@ python -m bayesian_learning.infer_gaussian_nb_iris
 
 Σχετικό notebook:
 
-- `notebooks/03b_gaussian_nb_iris.ipynb`
+- `notebooks/03a_gaussian_nb_iris.ipynb`
 
 Το notebook:
 
@@ -447,7 +447,7 @@ python -m bayesian_learning.infer_naive_bayes_sms
 
 Σχετικό notebook:
 
-- `notebooks/03_bayesian_learning_naive_bayes.ipynb`
+- `notebooks/03b_polynomial_naive_bayesian_learning.ipynb`
 
 
 
