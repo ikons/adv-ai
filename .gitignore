@@ -1,3 +1,23 @@
+# Ignore model artifact directories
+**/models/
+**/models/**
+
+# Ignore common serialized model formats inside models directories
+**/models/*.joblib
+**/models/*.pkl
+**/models/*.npz
+**/models/*.h5
+**/models/*.ckpt
+**/models/*.model
+
+# Ignore local Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Ignore Python cache and virtual env
+__pycache__/
+*.py[cod]
+venv/
+.venv/
 __pycache__/
 *.pyc
 .venv/
