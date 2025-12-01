@@ -447,7 +447,7 @@ python -m bayesian_learning.infer_naive_bayes_sms
 
 Σχετικό notebook:
 
-- `notebooks/03b_polynomial_naive_bayesian_learning.ipynb`
+- `notebooks/03b_multinomial_naive_bayesian_learning.ipynb`
 
 
 
@@ -458,5 +458,4 @@ python -m bayesian_learning.infer_naive_bayes_sms
 - εκπαιδεύει Multinomial NB,
 - παράγει διαγράμματα (class balance, confusion matrix, bar plot με top λέξεις),
 - δείχνει posterior πιθανότητες για νέα μηνύματα.
-
 
